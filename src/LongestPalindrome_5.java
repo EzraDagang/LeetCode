@@ -13,50 +13,80 @@
 - If null and empty string, return "".
  */
 
-public class LongestPalindrome {
+public class LongestPalindrome_5 {
     public static String getLongestPalindrome(String s) {
+        if (s.isEmpty()) return s;
 
-        if (s == null || s.isEmpty()) return "";
-
-        String longest = "", stringRange = "";
+        String evenPalindrome, oddPalindrome, longestPalindrome = "";
+        int left, right;
 
         for (int i = 0; i < s.length(); i++) {
-            //if charAt(i) is the center of an odd palindrome
-            int left = i - 1, right = i + 1;
 
-            while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
-                left--;
-                right++;
-            }
+            oddPalindrome = getPalindrome(s, i, i);
 
-            stringRange = s.substring(left + 1, right);
+            if (oddPalindrome.length() > longestPalindrome.length())
+                longestPalindrome = oddPalindrome;
 
-            if (stringRange.length() > longest.length()) {
-                longest = stringRange;
-            }
+            evenPalindrome = getPalindrome(s, i, i + 1);
 
-            //If charAt(i) is the first center half of an even palindrome
-            left = i;
-            right = i + 1;
-
-            while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
-                left--;
-                right++;
-            }
-
-            stringRange = s.substring(left + 1, right);
-
-            if (stringRange.length() > longest.length()) {
-                longest = stringRange;
-            }
+            if (evenPalindrome.length() > longestPalindrome.length())
+                longestPalindrome = evenPalindrome;
         }
 
-        return longest;
+        return longestPalindrome;
     }
 
-        //=============================
-        // Simplified & Reduced Code Duplication Version
-        //=============================
+    public static String getPalindrome(String s, int left, int right) {
+        while (left >= 0 && right <= s.length() - 1 && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return s.substring(left + 1, right);
+    }
+
+
+//    {
+//
+//        if (s == null || s.isEmpty()) return "";
+//
+//        String longest = "", stringRange = "";
+//
+//        for (int i = 0; i < s.length(); i++) {
+//            //if charAt(i) is the center of an odd palindrome
+//            int left = i - 1, right = i + 1;
+//
+//            while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+//                left--;
+//                right++;
+//            }
+//
+//            stringRange = s.substring(left + 1, right);
+//
+//            if (stringRange.length() > longest.length()) {
+//                longest = stringRange;
+//            }
+//
+//            //If charAt(i) is the first center half of an even palindrome
+//            left = i;
+//            right = i + 1;
+//
+//            while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+//                left--;
+//                right++;
+//            }
+//
+//            stringRange = s.substring(left + 1, right);
+//
+//            if (stringRange.length() > longest.length()) {
+//                longest = stringRange;
+//            }
+//        }
+//
+//        return longest;
+//    }
+    //=============================
+    // Simplified & Reduced Code Duplication Version
+    //=============================
 
 //        //This is to check for null/empty string
 //        if (s == null || s.isEmpty()) return "";

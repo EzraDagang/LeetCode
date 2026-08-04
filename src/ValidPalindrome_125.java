@@ -1,5 +1,46 @@
-public class ValidPalindrome {
+public class ValidPalindrome_125 {
     public static boolean isPalindrome(String s) {
+        if(s == null) return false;
+
+        s = s.replaceAll("[^0-9a-zA-Z]", "").toLowerCase();
+
+        if (s.isEmpty()) return true;
+
+        int left = 0;
+        int right = s.length() - 1;
+
+        while (left <= right) {
+            if (s.charAt(left) == s.charAt(right)) {
+                left++;
+                right--;
+            } else return false;
+        }
+
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+{
 
         if (s == null ) return false;
 
@@ -27,4 +68,4 @@ public class ValidPalindrome {
 
         return true;
     }
-}
+ */

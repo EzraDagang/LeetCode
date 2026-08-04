@@ -1,8 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        int k = 4;
-        int[] nums = {1,12,-5,-6,50,3};
+        String s = "c";
 
-        System.out.println(MaximumAverageSubarray.findMaxAverage(nums, k));
+        System.out.println(LongestPalindrome_5.getLongestPalindrome(s));
     }
 }
