@@ -1,7 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        String s = "c";
-
-        System.out.println(LongestPalindrome_5.getLongestPalindrome(s));
+        int[] nums = {2,3,1,2,4,3};
+        System.out.println(MinimumSizeSubarraySum_209.minSubArrayLen(7,nums));
     }
 }

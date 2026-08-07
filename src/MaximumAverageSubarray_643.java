@@ -23,7 +23,7 @@ for ( int i = 0; i + 4 < nums.length(); i++) {
     if(sum/4 > sumAverage) sumAverage = sum/4;
 }
  */
-public class MaximumAverageSubarray {
+public class MaximumAverageSubarray_643 {
     public static double findMaxAverage(int[] nums, int k) {
 
         int currentSum = 0;
