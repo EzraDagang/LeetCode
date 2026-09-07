@@ -2,38 +2,84 @@ import java.util.HashMap;
 
 public class PermutationInString_567 {
     public static boolean checkInclusion(String s1, String s2) {
-        if(s1.length() > s2.length()) return false;
+        if (s1.length() > s2.length()) return false;
 
-        boolean permutationExist = false;
         HashMap<Character, Integer> s1Frequency = new HashMap<>();
         HashMap<Character, Integer> windowFrequency = new HashMap<>();
         int matches = 0;
 
         for (int i = 0; i < s1.length(); i++) {
-            if (!s1Frequency.containsKey(s1.charAt(i))) s1Frequency.put(s1.charAt(i), 1);
-            else s1Frequency.put(s1.charAt(i), s1Frequency.get(s1.charAt(i)) + 1);
-        }
-        
-        for(int right = 0; right < s1.length(); right++){
-            if (!windowFrequency.containsKey(s2.charAt(right))) windowFrequency.put(s2.charAt(right), 1);
-            else windowFrequency.put(s2.charAt(right), windowFrequency.get(s2.charAt(right)) + 1);
+            char newChar = s1.charAt(i);
+            if (!s1Frequency.containsKey(newChar)) s1Frequency.put(newChar, 1);
+            else s1Frequency.put(newChar, s1Frequency.get(newChar) + 1);
         }
 
-        for(Character key : s1Frequency.keySet()){
-            if(!windowFrequency.containsKey(key)) break;
-            if(!windowFrequency.get(key).equals(s1Frequency.get(key))) break;
-            matches++;
-            if(matches == s1Frequency.size()) return true;
+        for (int right = 0; right < s1.length(); right++) {
+            char newChar = s2.charAt(right);
+
+            if (!windowFrequency.containsKey(newChar)) {
+                windowFrequency.put(newChar, 1);
+            } else {
+                windowFrequency.put(newChar, windowFrequency.get(newChar) + 1);
+            }
         }
 
-        //I stopped here. So basically the idea is that I just have to care about the number of matches, regardless
-        //of the order because this is permutation, order doesn't matter. if order does matter, then it is a different
-        //matter.
-
-        for(int right = s1.length(); right < s2.length(); right++){
-            if()
+        for (Character c : s1Frequency.keySet()) {
+            if (s1Frequency.containsKey(c)
+                    && s1Frequency.get(c).equals(windowFrequency.get(c))) {
+                matches++;
+            }
         }
 
+        if (matches == s1Frequency.size()) {
+            return true;
+        }
+
+        for (int right = s1.length(); right < s2.length(); right++) {
+
+            char newChar = s2.charAt(right);
+            char removeChar = s2.charAt(right - s1.length());
+
+            // ----- Remove old character -----
+
+            if (s1Frequency.containsKey(removeChar)) {
+
+                // Was this character matching before removal?
+                if (windowFrequency.get(removeChar)
+                        .equals(s1Frequency.get(removeChar))) {
+                    matches--;
+                }
+
+                windowFrequency.put(
+                        removeChar,
+                        windowFrequency.get(removeChar) - 1
+                );
+            }
+
+            // ----- Add new character -----
+
+            // Was this character matching before addition?
+            if (windowFrequency.containsKey(newChar) && windowFrequency.get(newChar)
+                    .equals(s1Frequency.get(newChar))) {
+                matches--;
+            }
+
+            if (!windowFrequency.containsKey(newChar)) {
+                windowFrequency.put(newChar, 1);
+            } else {
+                windowFrequency.put(newChar, windowFrequency.get(newChar) + 1);
+            }
+
+            if (s1Frequency.containsKey(newChar) && s1Frequency.get(newChar).equals(windowFrequency.get(newChar))) {
+                // Does it match after addition?
+                matches++;
+            }
+
+            if (matches == s1Frequency.size()) return true;
+
+        }
+
+        return false;
     }
 }
 
