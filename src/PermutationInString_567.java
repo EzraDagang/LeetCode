@@ -25,8 +25,7 @@ public class PermutationInString_567 {
         }
 
         for (Character c : s1Frequency.keySet()) {
-            if (s1Frequency.containsKey(c)
-                    && s1Frequency.get(c).equals(windowFrequency.get(c))) {
+            if (s1Frequency.get(c).equals(windowFrequency.get(c))) {
                 matches++;
             }
         }
@@ -42,25 +41,24 @@ public class PermutationInString_567 {
 
             // ----- Remove old character -----
 
-            if (s1Frequency.containsKey(removeChar)) {
-
+            if (s1Frequency.containsKey(removeChar) &&
+                    windowFrequency.get(removeChar).equals(s1Frequency.get(removeChar))) {
                 // Was this character matching before removal?
-                if (windowFrequency.get(removeChar)
-                        .equals(s1Frequency.get(removeChar))) {
-                    matches--;
-                }
+                matches--;
+            }
 
-                windowFrequency.put(
-                        removeChar,
-                        windowFrequency.get(removeChar) - 1
-                );
+            windowFrequency.put(removeChar, windowFrequency.get(removeChar) - 1);
+
+            if (s1Frequency.containsKey(removeChar) &&
+                    windowFrequency.get(removeChar).equals(s1Frequency.get(removeChar))) {
+                // does this character match after removal?
+                matches++;
             }
 
             // ----- Add new character -----
 
             // Was this character matching before addition?
-            if (windowFrequency.containsKey(newChar) && windowFrequency.get(newChar)
-                    .equals(s1Frequency.get(newChar))) {
+            if (s1Frequency.containsKey(newChar) && s1Frequency.get(newChar).equals(windowFrequency.get(newChar))) {
                 matches--;
             }
 
