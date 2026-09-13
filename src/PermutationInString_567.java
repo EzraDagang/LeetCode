@@ -1,8 +1,112 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class PermutationInString_567 {
     public static boolean checkInclusion(String s1, String s2) {
         if (s1.length() > s2.length()) return false;
+
+        Map<Character, Integer> s1Frequency = new HashMap<>();
+        Map<Character, Integer> windowFrequency = new HashMap<>();
+        int match = 0;
+
+        for (int i = 0; i < s1.length(); i++) {
+            char c = s1.charAt(i);
+
+            if (s1Frequency.containsKey(c))
+                s1Frequency.put(c, s1Frequency.get(c) + 1);
+            else
+                s1Frequency.put(c, 1);
+        }
+
+        for (int i = 0; i < s1.length(); i++) {
+            char c = s2.charAt(i);
+
+            if (windowFrequency.containsKey(c))
+                windowFrequency.put(c, windowFrequency.get(c) + 1);
+            else
+                windowFrequency.put(c, 1);
+        }
+
+        s1Frequency.forEach((key, value) -> {
+
+        });
+
+        for (Map.Entry<Character, Integer> entry : s1Frequency.entrySet()) {
+            Character key = entry.getKey();
+            Integer value = entry.getValue();
+
+            if (windowFrequency.containsKey(key)
+                    && windowFrequency.get(key).equals(value))
+                match++;
+            if (match == s1Frequency.size())
+                return true;
+        }
+
+        for (int i = s1.length(); i < s2.length(); i++) {
+            char newChar = s2.charAt(i);
+            char removeChar = s2.charAt(i - s1.length());
+
+            if (s1Frequency.containsKey(newChar)
+                    && s1Frequency.get(newChar).equals(windowFrequency.get(newChar)))
+                match--;
+
+            if (windowFrequency.containsKey(newChar))
+                windowFrequency.put(newChar, windowFrequency.get(newChar) + 1);
+            else
+                windowFrequency.put(newChar, 1);
+
+            if (s1Frequency.containsKey(newChar)
+                    && s1Frequency.get(newChar).equals(windowFrequency.get(newChar)))
+                match++;
+
+            if (s1Frequency.containsKey(removeChar)
+                    && s1Frequency.get(removeChar).equals(windowFrequency.get(removeChar)))
+                match--;
+
+            windowFrequency.put(removeChar, windowFrequency.get(removeChar) - 1);
+
+            if (s1Frequency.containsKey(removeChar)
+                    && s1Frequency.get(removeChar).equals(windowFrequency.get(removeChar)))
+                match++;
+
+            if (match == s1Frequency.size())
+                return true;
+        }
+
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+s1Frequency hashmap stores the frequency for each unique character.
+
+ windowHashmap stores the frequency for each unique character in the window.
+
+
+
+         if (s1.length() > s2.length()) return false;
 
         HashMap<Character, Integer> s1Frequency = new HashMap<>();
         HashMap<Character, Integer> windowFrequency = new HashMap<>();
@@ -78,11 +182,4 @@ public class PermutationInString_567 {
         }
 
         return false;
-    }
-}
-
-/*
-s1Frequency hashmap stores the frequency for each unique character.
-
- windowHashmap stores the frequency for each unique character in the window.
  */
